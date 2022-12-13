@@ -4,6 +4,6 @@
 void usart_init(unsigned int ubrr);
 void usart_transmit(unsigned char *tx_buffer);
 void UART0_FLUSH(void);
-//unsigned char *usart_receive (void);
+void usart_receive (void);
 
 #endif

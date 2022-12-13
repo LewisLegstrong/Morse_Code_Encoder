@@ -1,6 +1,6 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include <stdio.h>
 #include "io_init.h"
 #include "usart_init.h"
@@ -22,7 +22,11 @@ int main(void)
 
 	while (1)
 	{
-		usart_transmit(frase);
+		PORTD &= ~(1<<PD6);
+		delay_t0(2);
+		PORTD = (1<<PD6);
+		delay_t0(2);
+			//usart_transmit(frase);
 	}
 	return (0);
 }

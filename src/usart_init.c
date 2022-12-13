@@ -27,20 +27,6 @@ void usart_transmit (unsigned char *tx_buffer)
 	}
 }
 
-/// ********************* Recebe cada carater da UDR0 e coloca na string ***************************///
-unsigned char *usart_receive (void)
-{
-	unsigned char *rx_buffer;
-	
-	while (rx_buffer != '\n' || rx_buffer != '\r' )
-	{
-		while(!(UCSR0A & (1<<RXC0)));
-		rx_buffer = UDR0;
-	}
-	rx_buffer = '\0';
-	return (rx_buffer);
-}
-
 //**************** Limpeza do buffer *************//
 void UART0_FLUSH (void)
 {
@@ -49,8 +35,23 @@ void UART0_FLUSH (void)
         dummy = UDR0;
 }
 
+
+/// ********************* Recebe cada carater da UDR0 e coloca na string ***************************///
+void usart_receive (void)
+{
+	unsigned char *rx_buffer;
+	
+	while (rx_buffer != '\n' || rx_buffer != '\r' )
+	{
+		rx_buffer = UDR0;
+		while(!(UCSR0A & (1<<RXC0)));
+	}
+	rx_buffer = '\0';
+	UART0_FLUSH();
+}
+
 //*********** Interrupção por receção da USART ***************//
 ISR(USART_RX_vect)
 {
-	
+	usart_receive();
 }
