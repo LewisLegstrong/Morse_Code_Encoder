@@ -11,7 +11,7 @@ void usart_init (unsigned int ubrr)
 }
 
 /// ********************* Passa para UDR0 cada carater da string por ordem para imprimir ***************************///
-void usart_transmit (unsigned char tx_buffer[50])
+void usart_transmit (char tx_buffer[120])
 {
 	unsigned char i = 0;
 
@@ -33,12 +33,13 @@ void UART0_FLUSH (void)
 
 
 /// ********************* Recebe cada carater da UDR0 e coloca na string ***************************///
-char *usart_receive (void)
+void usart_receive (void)
 {
 	unsigned char aux;
-	unsigned char rx_buffer[120];
+	char *rx_buffer;
 	unsigned int i;
 
+	rx_buffer = (char *)frase;
 	i = 0;
 	while (i < 120)
 	{
@@ -50,16 +51,13 @@ char *usart_receive (void)
 			rx_buffer[i] = aux;
 		i++;
 	}
-	*rx_buffer = '\0';
+	rx_buffer[i] = '\0';
 	UART0_FLUSH();
-	return (rx_buffer);
 }
 
 //*********** Interrupção por receção da USART ***************//
-ISR(USART_RX_vect)
+ISR (USART_RX_vect)
 {
-	reception = 1; //Ter uma forma de receber uma variável para ser modificada na Receive quando a interrupt é ativa
-	frase = usart_receive(); //A variável aqui alterada é diferente da que é usada em USart_transmit
-
+	usart_receive(); //A variável aqui alterada é diferente da que é usada em USart_transmit
 	/* Usart transmit passa apenas a mensagem em Morse, A USart receive recebe comandos que vão ser interpretados para alterar valores ou alterar modos de funcionamnento*/
 }

@@ -11,8 +11,6 @@
 #define BAUD 115200
 #define MYUBRR (F_CPU / (16 * BAUD))
 
-unsigned char frase[] = {"Hello World!\n"};
-
 unsigned int startandsetup(void)
 {
 	io_config();
@@ -38,7 +36,7 @@ int main(void)
 		delay_t0(1);
 		PORTD = (1<<PD6);
 		delay_t0(4);
-		usart_transmit();
+		usart_transmit((char *)frase);
 	}
 	return (0);
 }

@@ -24,7 +24,7 @@ void timer0_init(void)
 	TCCR0B |= (1 << CS02) | (1 << CS00); //Prescaler a 1024
 }
 
-int delay_t0(int seconds)
+void delay_t0(int seconds)
 {
 	unsigned long int delay_val = 0;
 

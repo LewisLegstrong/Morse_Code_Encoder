@@ -6,8 +6,10 @@
 
 #include "io_init.h"
 
+volatile char frase[120] = {"Hello World"};
+
 void usart_init(unsigned int ubrr);
-void usart_transmit(unsigned char tx_buffer[50]);
+void usart_transmit(char tx_buffer[120]);
 void UART0_FLUSH(void);
 void usart_receive (void);
 

@@ -15,7 +15,7 @@
 volatile unsigned int period0; 
 
 void timer1_init(unsigned int frequency);
-int delay_t0 (int seconds);
+void delay_t0 (int seconds);
 void timer0_init (void);
 
 #endif
