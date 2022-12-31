@@ -4,7 +4,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "usart_init.h"
 #include "io_init.h"
 
 #define PRESCALER0 1024

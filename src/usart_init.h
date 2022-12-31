@@ -7,13 +7,13 @@
 #include "io_init.h"
 
 volatile char frase[120];
-volatile unsigned int usartint_flg = 0;
+extern volatile unsigned long long rxCounter;
 
 void usart_init(unsigned int ubrr);
-void usart_transmit(volatile char tx_buffer[120]);
+void usart_transmit(volatile  char tx_buffer[120]);
 void UART0_FLUSH(void);
 void usart_receive(void);
-char usart_get_char(void);
+unsigned char usart_get_char(void);
 
 #endif
 

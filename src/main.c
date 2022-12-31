@@ -11,36 +11,22 @@
 #define BAUD 115200
 #define MYUBRR (F_CPU / (16 * BAUD))
 
-unsigned int startandsetup(void)
+void startandsetup(void)
 {
 	io_config();
 	usart_init(MYUBRR);
-	sei();
 	timer1_init(200); //colocar o dobro da frequencia pretendida
-	//adc_init();
-
-	strcat((char *)frase, "Hello World");
-
-	return (1);
+	adc_init();
+	UART0_FLUSH();
 }
 
 int main(void)
 {
-	unsigned int systemset = 0;
-
-	systemset = startandsetup();
-	if (!systemset)
-		usart_transmit("UPS, SOMETHING FAILED");
-	usart_transmit("ALL SYSTEMS OK");	
-	
+	startandsetup();
+	sei();
 	while (1)
 	{
-		if (usartint_flg == 1)
-			usart_receive();
-		// PORTD &= ~(1<<PD6);
-		// delay_t0(1);
-		PORTD = (1<<PD6);
-		delay_t0(4);
+		delay_t0(2);
 		usart_transmit(frase);
 	}
 	return (0);
