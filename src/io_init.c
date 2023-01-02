@@ -1,10 +1,14 @@
 #include "io_init.h"
+#include "usart_init.h"
 
 void io_config(void) // Configure pins as output or input
 {
 	DDRB |= (1 << PB1); // Define pin Buzzer OUTPUT(PWM)
 	DDRD |= (1 << PD6); // Define pin LED OUTPUT
 	DDRC &= ~(1 << PC0); // Define NTC como INPUT
+	DDRD &= ~(1 << PD2);
+	EICRA |= (1 << ISC00) | (1 << ISC01);
+	EIMSK |= (1 << INT0);
 }
 
 void adc_init(void) // pg216 datasheet
@@ -14,13 +18,15 @@ void adc_init(void) // pg216 datasheet
 	ADCSRA |= (1 << ADSC) | (1 << ADATE) | (1 << ADIE) | (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2);
 	ADCSRA |= (1 << ADEN);	// ADEN enables the ADC;
 }	
-	// ADSC necessary to start the conversion, resets to zero auto when a conversion is concluded;
-	// ADATE activates trigger mode instead of Single conversion mode
-	// ADIE conversion interrupt enabler
-	// ADPS:2 Prescaler selections
 
 ISR(INT0_vect)
 {
 	freq += FREQ_INC;
+	usart_transmit("INT0 +1000");
 }
 
+ISR(INT1_vect)
+{
+	freq += FREQ_INC;
+	usart_transmit("INT1 +1000");
+}

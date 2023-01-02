@@ -6,7 +6,7 @@
 
 #define MIN_BUZ_FRQ 20 //defines min freq at 20Hz
 #define MAX_BUZ_FRQ 20000 //defines max freq at 20kHz
-#define FREQ_INC 100 //increases by 100Hz the PWM signal
+#define FREQ_INC 1000 //increases by 100Hz the PWM signal
 
 extern volatile unsigned int freq;
 

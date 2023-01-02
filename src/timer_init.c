@@ -15,7 +15,7 @@ void timer1_init(unsigned int frequency) // Não acabado, falta configurar algun
 	TCCR1B |= (1 << CS11) | (1 << CS10);
 }
 
-void timer1_off()
+void timer1_off(void)
 {
 	TCCR1B &= ~((1 << CS11) | (1 << CS10));
 }
