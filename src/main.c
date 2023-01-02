@@ -15,7 +15,8 @@ void startandsetup(void)
 {
 	io_config();
 	usart_init(MYUBRR);
-	timer1_init(200); //colocar o dobro da frequencia pretendida
+	freq = MIN_BUZ_FRQ;
+	timer1_init(2 * freq); //colocar o dobro da frequencia pretendida
 	adc_init();
 	UART0_FLUSH();
 }
@@ -26,8 +27,7 @@ int main(void)
 	sei();
 	while (1)
 	{
-		delay_t0(2);
-		usart_transmit(frase);
+
 	}
 	return (0);
 }

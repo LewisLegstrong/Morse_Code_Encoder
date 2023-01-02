@@ -1,8 +1,5 @@
 #include "io_init.h"
 
-// #define MIN_BUZ_FRQ
-// #define MAX_BUZ_FRQ
-
 void io_config(void) // Configure pins as output or input
 {
 	DDRB |= (1 << PB1); // Define pin Buzzer OUTPUT(PWM)
@@ -22,4 +19,8 @@ void adc_init(void) // pg216 datasheet
 	// ADIE conversion interrupt enabler
 	// ADPS:2 Prescaler selections
 
+ISR(INT0_vect)
+{
+	freq += FREQ_INC;
+}
 
