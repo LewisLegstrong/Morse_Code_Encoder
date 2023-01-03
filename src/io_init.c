@@ -7,8 +7,8 @@ void io_config(void) // Configure pins as output or input
 	DDRD |= (1 << PD6); // Define pin LED OUTPUT
 	DDRC &= ~(1 << PC0); // Define NTC como INPUT
 	DDRD &= ~(1 << PD2);
-	EICRA |= (1 << ISC00) | (1 << ISC01);
-	EIMSK |= (1 << INT0);
+	EICRA |= (1 << ISC00) | (1 << ISC01) | (1 << ISC10) | (1 << ISC11);
+	EIMSK |= (1 << INT0) | (1 << INT1);
 }
 
 void adc_init(void) // pg216 datasheet
@@ -22,11 +22,15 @@ void adc_init(void) // pg216 datasheet
 ISR(INT0_vect)
 {
 	freq += FREQ_INC;
+	if (freq > MAX_BUZ_FRQ)
+		freq = MAX_BUZ_FRQ;
 	usart_transmit("INT0 +1000");
 }
 
 ISR(INT1_vect)
 {
-	freq += FREQ_INC;
+	freq -= FREQ_INC;
+	if (freq < MIN_BUZ_FRQ)
+		freq = MIN_BUZ_FRQ;
 	usart_transmit("INT1 +1000");
 }

@@ -6,6 +6,7 @@
 #include "io_init.h"
 #include "timer_init.h"
 #include "usart_init.h"
+#include "morse.h"
 
 #define F_CPU 16000000UL
 
@@ -24,13 +25,10 @@ int main(void)
 {
 	startandsetup();
 	sei();
+	
 	while (1)
 	{
-		usart_transmit(frase);
-		delay_t0(3);
-		timer1_off();
-		delay_t0(2);
-		timer1_init(2 * freq);
+
 	}
 	return (0);
 }
