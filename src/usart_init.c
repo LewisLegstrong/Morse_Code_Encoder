@@ -1,8 +1,8 @@
 #include "usart_init.h"
 
 volatile unsigned long long rxCounter = 0;
-/// ********************* Inicia a USART em 8bit data, 1 stop bit, Assyncronous ***************************///
-void usart_init (unsigned int ubrr)
+
+void usart_init (unsigned int ubrr) // Inicia a USART em 8bit data, 1 stop bit, Assyncronous
 {	
 	UBRR0H = (ubrr >> 8); /*  */
 	UBRR0L = (ubrr);
@@ -11,7 +11,11 @@ void usart_init (unsigned int ubrr)
 	UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00);
 }
 
-// ********************* Passa para UDR0 cada carater da string por ordem para imprimir ***************************///
+/***************************************************************************************
+//     //		//          	 USART Transmit					    // 	    //		//
+
+***************************************************************************************/
+
 void usart_transmit (volatile char tx_buffer[120])
 {
 	rxCounter = 0;
@@ -25,22 +29,25 @@ void usart_transmit (volatile char tx_buffer[120])
 	}
 }
 
-//**************** Limpeza do buffer *************//
-void UART0_FLUSH (void)
+/***************************************************************************************
+//     //		//          	 USART Receive					    // 	    //		//
+
+***************************************************************************************/
+
+void UART0_FLUSH (void)	//Limpeza do buffer 
 {
     unsigned char dummy = 0;
     while (UCSR0A & (1 << RXC0))
         dummy = UDR0;
 }
 
-/// ********************* Recebe cada carater da UDR0 e coloca na string ***************************///
-unsigned char usart_get_char(void)
+unsigned char usart_get_char(void)	//Recebe cada carater da UDR0 e coloca na string 
 {
 	while (!(UCSR0A & (1<<RXC0)));
 	return (UDR0);
 }
 
-void usart_receive (void)
+void usart_receive(void)	//Recebe cada carater da UDR0 e coloca na string 
 {
 	volatile unsigned char c;
 
@@ -52,8 +59,12 @@ void usart_receive (void)
 	rxCounter++;
 }
 
-//*********** Interrupção por receção da USART ***************//
-ISR (USART_RX_vect)
+/***************************************************************************************
+//     //		//          	 USART Receive Interrupt		    // 	    //		//
+
+***************************************************************************************/
+
+ISR (USART_RX_vect)	//Interrupção por receção da USART
 {
 	usart_receive();
 }

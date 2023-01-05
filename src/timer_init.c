@@ -10,8 +10,10 @@ void timer1_init(unsigned int frequency) // Não acabado, falta configurar algun
 
 	OCR1AH = ticks >> 8;
 	OCR1AL = ticks;
+}
 
-	// Needs to be set last, as setting the prescaler initializes the TCNT1 counter
+void timer1_on(void)
+{
 	TCCR1B |= (1 << CS11) | (1 << CS10);
 }
 
@@ -20,7 +22,11 @@ void timer1_off(void)
 	TCCR1B &= ~((1 << CS11) | (1 << CS10));
 }
 
-//                Timer 0 is set for delays only               //
+
+/***************************************************************************************
+//     //		//           Timer 0 is set for delays only         // 	    //		//
+
+***************************************************************************************/
 
 void timer0_init(void)
 {
