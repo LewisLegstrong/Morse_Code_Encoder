@@ -31,9 +31,10 @@ void morse_space(void)
 //Converts the phrase to morse Code to be sent to an LED or Buzzer
 void morse_convert(void)
 {
-	for (int i = 0; frase[i] != '\0'; i++)
+	int i = 0;
+	while (frase[i] != '\0')
 	{
-		switch (frase[i])
+		switch (frase[i++])
 		{
 			case 'a':
 			case 'A':
@@ -216,7 +217,7 @@ void morse_convert(void)
 			case 'z':
 			case 'Z':
 				morse_dash();
-				morse_das();
+				morse_dash();
 				morse_dot();
 				morse_dot();
 				break;

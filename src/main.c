@@ -10,7 +10,8 @@
 
 #define F_CPU 16000000UL
 
-volatile unsigned int freq = MIN_BUZ_FRQ;
+volatile unsigned int freq = 200;
+volatile float spb = 0.2;
 
 void startandsetup(void)
 {
@@ -28,7 +29,8 @@ int main(void)
 	
 	while (1)
 	{
-
+		delay_t0(2);
+		usart_transmit(frase);
 	}
 	return (0);
 }

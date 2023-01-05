@@ -20,6 +20,8 @@ void timer1_off(void)
 	TCCR1B &= ~((1 << CS11) | (1 << CS10));
 }
 
+//                Timer 0 is set for delays only               //
+
 void timer0_init(void)
 {
 	// TCCR0A = 0x00;
@@ -29,9 +31,9 @@ void timer0_init(void)
 	TCCR0B |= (1 << CS02) | (1 << CS00); //Prescaler a 1024
 }
 
-void delay_t0(int seconds)
+void delay_t0(float seconds)
 {
-	unsigned long int delay_val = 0;
+	float delay_val = 0;
 
 	delay_val = seconds * TI0_FREQ;
 	period0 = delay_val / 255;

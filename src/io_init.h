@@ -9,7 +9,7 @@
 #define FREQ_INC 200 //increases by 100Hz the PWM signal
 
 extern volatile unsigned int freq;
-extern volatile unsigned int spb;
+extern volatile float spb;
 
 void adc_init(void);
 void io_config(void);
