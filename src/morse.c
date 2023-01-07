@@ -2,7 +2,8 @@
 #include "timer_init.h"
 #include "usart_init.h"
 
-// Defines Morse Caracters: Dot, Dash and also defines Space between words
+unsigned char out_sel = 'L'; //At the start, the default OUTPUT is the LED
+// Defines Morse Caracters: Dot, Dash and also defines Space between letters
 void morse_dot(void)
 {
 	timer1_init(freq);
@@ -24,22 +25,30 @@ void morse_dash(void)
 
 void morse_space(void)
 {
-	for (int i = 0; i < 2; i++) //2x the baet time
+	for (int i = 0; i < 2; i++) //2x the beat time
 		delay_t0(spb);
 }
 
+/*********************************************************************
+ * 						Biblioteca Conversão 
+ * 								Morse
+ *********************************************************************/
+
 //Converts the phrase to morse Code to be sent to an LED or Buzzer
-void morse_convert(void)
+void morse_convert(char *phrasetoconvert)
 {
 	int i = 0;
-	while (frase[i] != '\0')
+
+	while (phrasetoconvert[i] != '\0')
 	{
-		switch (frase[i++])
+		int j = 0;
+		switch (phrasetoconvert[i++])
 		{
 			case 'a':
 			case 'A':
 				morse_dot();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'b':
@@ -48,6 +57,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'c':
@@ -56,6 +66,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dash();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'd':
@@ -63,11 +74,13 @@ void morse_convert(void)
 				morse_dash();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'e':
 			case 'E':
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'f':
@@ -76,6 +89,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dash();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'g':
@@ -83,6 +97,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dash();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'h':
@@ -91,12 +106,14 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'i':
 			case 'I':
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'j':
@@ -105,6 +122,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dash();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'k':
@@ -112,6 +130,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dot();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'l':
@@ -120,18 +139,21 @@ void morse_convert(void)
 				morse_dash();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'm':
 			case 'M':
 				morse_dash();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'n':
 			case 'N':
 				morse_dash();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'o':
@@ -139,6 +161,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dash();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'p':
@@ -147,6 +170,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dash();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 'q':
@@ -155,6 +179,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dot();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'r':
@@ -162,6 +187,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dash();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 's':
@@ -169,11 +195,13 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case 't':
 			case 'T':
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'u':
@@ -181,6 +209,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'v':
@@ -189,6 +218,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'w':
@@ -196,6 +226,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dash();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'x':
@@ -204,6 +235,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'y':
@@ -212,6 +244,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dash();
 				morse_dash();
+				morse_space();
 				break;
 
 			case 'z':
@@ -220,6 +253,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 //			Números			//
@@ -230,6 +264,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dash();
 				morse_dash();
+				morse_space();
 				break;
 
 			case '2':
@@ -238,6 +273,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dash();
 				morse_dash();
+				morse_space();
 				break;
 
 			case '3':
@@ -246,6 +282,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dash();
 				morse_dash();
+				morse_space();
 				break;
 
 			case '4':
@@ -254,6 +291,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dash();
+				morse_space();
 				break;
 
 			case '5':
@@ -262,6 +300,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case '6':
@@ -270,6 +309,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case '7':
@@ -278,6 +318,7 @@ void morse_convert(void)
 				morse_dot();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case '8':
@@ -286,6 +327,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dot();
 				morse_dot();
+				morse_space();
 				break;
 
 			case '9':
@@ -294,6 +336,7 @@ void morse_convert(void)
 				morse_dash();
 				morse_dash();
 				morse_dot();
+				morse_space();
 				break;
 
 			case '0':
@@ -302,10 +345,12 @@ void morse_convert(void)
 				morse_dash();
 				morse_dash();
 				morse_dash();
+				morse_space();
 				break;
 
 			case ' ':
-				morse_space();
+				while(j++ < 3)
+					morse_space();
 				break;
 		}
 	}

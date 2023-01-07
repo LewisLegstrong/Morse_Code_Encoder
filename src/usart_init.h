@@ -24,8 +24,6 @@ extern const char inc_b[10];
 extern const char dec_f[10];
 extern const char dec_b[10];
 
-
-
 void usart_init(unsigned int ubrr);
 void usart_transmit(volatile char tx_buffer[120]);
 void UART0_FLUSH(void);

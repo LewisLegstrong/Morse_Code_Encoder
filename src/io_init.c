@@ -17,14 +17,32 @@ void adc_init(void) // pg216 datasheet
 	ADCSRB &= ~((1 << ADTS0) | (1 << ADTS1) | (1 << ADTS2)); //sets Auto trigger to free running mode
 	ADCSRA |= (1 << ADSC) | (1 << ADATE) | (1 << ADIE) | (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2);
 	ADCSRA |= (1 << ADEN);	// ADEN enables the ADC;
-}	
+}
+
+uint16_t adc_read(uint8_t ch)
+{
+	// select the corresponding channel 0~7
+	// ANDing with ’7′ will always keep the value
+	// of ‘ch’ between 0 and 7
+	ch &= 0b00000111;			 // AND operation with 7
+	ADMUX = (ADMUX & 0xF8) | ch; // clears the bottom 3 bits before ORing
+
+	// start single convertion
+	// write ’1′ to ADSC
+	ADCSRA |= (1 << ADSC);
+
+	// wait for conversion to complete
+	// ADSC becomes ’0′ again
+	// till then, run loop continuously
+	while (ADCSRA & (1 << ADSC));
+	return(ADC);
+}
 
 ISR(INT0_vect)
 {
 	freq += FREQ_INC;
 	if (freq > MAX_BUZ_FRQ)
 		freq = MAX_BUZ_FRQ;
-	usart_transmit("INT0 +1000");
 }
 
 ISR(INT1_vect)
@@ -32,5 +50,4 @@ ISR(INT1_vect)
 	freq -= FREQ_INC;
 	if (freq < MIN_BUZ_FRQ)
 		freq = MIN_BUZ_FRQ;
-	usart_transmit("INT1 +1000");
 }
