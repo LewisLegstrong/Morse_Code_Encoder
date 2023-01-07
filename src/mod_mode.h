@@ -11,5 +11,6 @@ const char dec_f[10] = "$DEC:FRQ$";
 const char dec_b[10] = "$DEC:BPS$";
 
 void mode_change(void);
+void input_selection(char inp_sel)
 
 #endif

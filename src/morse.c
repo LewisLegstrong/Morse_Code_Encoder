@@ -30,8 +30,8 @@ void morse_space(void)
 }
 
 /*********************************************************************
- * 						Biblioteca Conversão 
- * 								Morse
+ * 						Biblioteca Conversão 						 *
+ * 								Morse								 *
  *********************************************************************/
 
 //Converts the phrase to morse Code to be sent to an LED or Buzzer

@@ -19,23 +19,33 @@ void adc_init(void) // pg216 datasheet
 	ADCSRA |= (1 << ADEN);	// ADEN enables the ADC;
 }
 
-uint16_t adc_read(uint8_t ch)
+unsigned int adc_read(unsigned int ch)
 {
-	// select the corresponding channel 0~7
-	// ANDing with ’7′ will always keep the value
-	// of ‘ch’ between 0 and 7
 	ch &= 0b00000111;			 // AND operation with 7
 	ADMUX = (ADMUX & 0xF8) | ch; // clears the bottom 3 bits before ORing
 
-	// start single convertion
-	// write ’1′ to ADSC
 	ADCSRA |= (1 << ADSC);
 
-	// wait for conversion to complete
-	// ADSC becomes ’0′ again
-	// till then, run loop continuously
 	while (ADCSRA & (1 << ADSC));
-	return(ADC);
+
+	// voltagem no NTC
+	unsigned int volt_ntc = 0;
+	volt_ntc = (1.1 / 1023) * ADC;
+
+	// Resistencia de NTC
+	float rNTC;
+	rNTC = (100000 * volt_ntc) / (5 - volt_ntc);
+
+	// Determinar temperatura (Formula de Steinhart-Hart)
+	float temperature;
+	temperature = rNTC / R_NTC_NOMINAL;			   // (R/Ro)
+	temperature = log(temperature);				   // ln(R/Ro)
+	temperature /= BETA;						   // 1/B * ln(R/Ro)
+	temperature += 1.0 / (R_NTC_NOMINAL + 273.15); // + (1/To)
+	temperature = 1.0 / temperature;			   // Invert
+	temperature -= 273.15;						   // convert absolute temp to C
+
+	return (temperature);
 }
 
 ISR(INT0_vect)
