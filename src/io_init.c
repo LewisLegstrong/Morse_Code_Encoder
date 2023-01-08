@@ -13,16 +13,16 @@ void io_config(void) // Configure pins as output or input
 
 void adc_init(void) // pg216 datasheet
 {
-	ADMUX |= (1 << REFS0) | (1 << REFS1);
+	ADMUX |= (1 << REFS0) | (1 << REFS1); //Sets internal reference Voltage to 1.1V
 	ADCSRB &= ~((1 << ADTS0) | (1 << ADTS1) | (1 << ADTS2)); //sets Auto trigger to free running mode
 	ADCSRA |= (1 << ADSC) | (1 << ADATE) | (1 << ADIE) | (1 << ADPS0) | (1 << ADPS1) | (1 << ADPS2);
 	ADCSRA |= (1 << ADEN);	// ADEN enables the ADC;
 }
 
-unsigned int adc_read(unsigned int ch)
+unsigned int adc_read(unsigned int adc_pin)
 {
-	ch &= 0b00000111;			 // AND operation with 7
-	ADMUX = (ADMUX & 0xF8) | ch; // clears the bottom 3 bits before ORing
+	adc_pin &= 0b00000111;			 // AND operation with 7
+	ADMUX = (ADMUX & 0xF8) | adc_pin; // clears the bottom 3 bits before ORing
 
 	ADCSRA |= (1 << ADSC);
 

@@ -9,9 +9,9 @@
 #define MAX_BUZ_FRQ 20000 //defines max freq at 20kHz
 #define FREQ_INC 665 //increases by 100Hz the PWM signal
 /*Defines for BPS*/
-#define SPB_MAX 1000
-#define SPB_MIN 200
-#define SPB_INC 200
+#define SPB_MAX 1/(1000/60)
+#define SPB_MIN 1/(200/60)
+#define SPB_INC 1/(200/60)
 /*Defines for ADC*/
 #define BETA 3435
 #define R_NTC_NOMINAL 10000 // a 25ºC

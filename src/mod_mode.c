@@ -1,12 +1,19 @@
 #include "mod_mode.h"
-#include "usart_init.h"
-#include "morse.h"
+
+const char inp_m[10] = "$INP:MSG:";
+const char inp_t[10] = "$INP:TMP$";
+const char out_l[10] = "$OUT:LED$";
+const char out_b[10] = "$OUT:BUZ$";
+const char inc_f[10] = "$INC:FRQ$";
+const char inc_b[10] = "$INC:BPS$";
+const char dec_f[10] = "$DEC:FRQ$";
+const char dec_b[10] = "$DEC:BPS$";
 
 /*******************************Terminal Modifiable funciotns************************************/
 void mode_change(void)
 {
-	unsigned char *aux;
-	aux = frase;
+	char *aux;
+	aux = (char*)frase;
 	while (*aux)
 	{
 		//changes Input method
@@ -55,18 +62,21 @@ void input_selection(char inp_sel)
 {
 	unsigned char *aux;
 
-	aux = frase;
+	aux = (unsigned char*)frase;
 	switch (inp_sel)
 	{
 		case 'T':
-			adc_read();
-			//sends to selected Output 
+			adc_read(PC0);
+			timer1_init(freq);
 			delay_t0(5);
 			break;
 	
 		case 'M':
 			aux += 10; //walks up ten positions to start from the beggining of the string to be converted
 			morse_convert(aux);
+			timer1_off();
+			inp_sel = 'T';
+			rx_flag = 0;
 			break;
 	}
 }

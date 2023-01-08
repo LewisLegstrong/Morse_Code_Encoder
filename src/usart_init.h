@@ -11,6 +11,7 @@
 
 volatile char frase[120];
 extern volatile unsigned long long rxCounter;
+extern volatile unsigned int rx_flag;
 
 /***************************************************************************************
 //     //		//         Constant Variables for comaprison	    // 	    //		//

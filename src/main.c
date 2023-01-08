@@ -7,11 +7,12 @@
 #include "timer_init.h"
 #include "usart_init.h"
 #include "morse.h"
+#include "mod_mode.h"
 
 #define F_CPU 16000000UL
 
 volatile unsigned int freq = 200;
-volatile float spb = 0.2;
+volatile float spb = SPB_MIN;
 
 void startandsetup(void)
 {
@@ -19,6 +20,7 @@ void startandsetup(void)
 	usart_init(MYUBRR);
 	adc_init();
 	UART0_FLUSH();
+	
 }
 
 int main(void)
@@ -28,8 +30,9 @@ int main(void)
 	
 	while (1)
 	{
-		delay_t0(2);
-		usart_transmit((char *)inc_b);
+		input_selection('T');
+		if (rx_flag)
+			input_selection('M');
 	}
 	return (0);
 }

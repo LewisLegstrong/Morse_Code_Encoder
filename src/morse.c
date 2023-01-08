@@ -35,7 +35,7 @@ void morse_space(void)
  *********************************************************************/
 
 //Converts the phrase to morse Code to be sent to an LED or Buzzer
-void morse_convert(char *phrasetoconvert)
+void morse_convert(unsigned char *phrasetoconvert)
 {
 	int i = 0;
 

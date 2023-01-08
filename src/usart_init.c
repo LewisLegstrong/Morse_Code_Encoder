@@ -1,6 +1,7 @@
 #include "usart_init.h"
 
 volatile unsigned long long rxCounter = 0;
+volatile unsigned int rx_flag = 0;
 
 void usart_init (unsigned int ubrr) // Inicia a USART em 8bit data, 1 stop bit, Assyncronous
 {	
@@ -67,4 +68,5 @@ void usart_receive(void)	//Recebe cada carater da UDR0 e coloca na string
 ISR (USART_RX_vect)	//Interrupção por receção da USART
 {
 	usart_receive();
+	rx_flag = 1;
 }

@@ -1,4 +1,5 @@
 #include "timer_init.h"
+#include "morse.h"
 
 void timer1_init(unsigned int frequency) // Não acabado, falta configurar alguns registos e perceber a 100%
 {
@@ -8,18 +9,28 @@ void timer1_init(unsigned int frequency) // Não acabado, falta configurar algun
 	TCCR1A |= (1 << COM1A0) | (1 << WGM11) | (1 << WGM10);
 	TCCR1B |= (1 << WGM12) | (1 << WGM13);
 
-	OCR1AH = ticks >> 8;
-	OCR1AL = ticks;
+	if (out_sel == 'B')
+	{
+		OCR1AH = ticks >> 8;
+		OCR1AL = ticks;
+		timer1_on();
+	}
+	else if (out_sel == 'L')
+	{
+		OCR1BH = ticks >> 8;
+		OCR1BL = ticks;
+		timer1_on();
+	}		
 }
 
 void timer1_on(void)
 {
-	TCCR1B |= (1 << CS11) | (1 << CS10);
+	TCCR1B |= (1 << CS11) | (1 << CS10); //Chooses Prescaler starting the Timer and generating PWM
 }
 
 void timer1_off(void)
 {
-	TCCR1B &= ~((1 << CS11) | (1 << CS10));
+	TCCR1B &= ~((1 << CS11) | (1 << CS10)); //Turns OFF Timer, shutting the LED/Buzzer OFF
 }
 
 
