@@ -1,4 +1,4 @@
-#include "auxilairy.h"
+#include "auxiliary.h"
 
 static size_t	counter(int n)
 {
