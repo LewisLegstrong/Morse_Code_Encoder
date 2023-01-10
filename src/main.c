@@ -8,7 +8,7 @@
 #include "usart_init.h"
 #include "morse.h"
 #include "mod_mode.h"
-#include "auxilairy.h"
+#include "auxiliary.h"
 
 volatile unsigned int freq = MIN_BUZ_FRQ;
 volatile float spb = SPB_MIN;
