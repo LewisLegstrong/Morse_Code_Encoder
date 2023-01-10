@@ -1,8 +1,8 @@
 #ifndef USART_INIT_
 #define USART_INIT_
 
-#define BAUD 115200
-#define MYUBRR (F_CPU / (16 * BAUD))
+#define BAUD 8 //At 8MHz internal Clock, for a BAUD rate of 115200, single speed operation doesn't work, sending trash a ue to an 8,5% error
+				//By setting assynchronous operation at double speed, we can have an error 3,5% allowing us to set Serial Port to 115200 as requested 
 
 #include <avr/interrupt.h>
 #include <avr/io.h>

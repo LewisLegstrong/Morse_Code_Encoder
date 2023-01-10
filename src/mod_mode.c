@@ -61,20 +61,22 @@ void mode_change(void)
 void input_selection(char inp_sel)
 {
 	unsigned char *aux;
+	int temp = 0;
 
 	aux = (unsigned char*)frase;
 	switch (inp_sel)
 	{
 		case 'T':
-			adc_read(PC0);
+			temp = adc_read(PC0);
 			timer1_init(freq);
+			timer1_off();
+			usart_transmit(temp);
 			delay_t0(5);
 			break;
 	
 		case 'M':
 			aux += 10; //walks up ten positions to start from the beggining of the string to be converted
 			morse_convert(aux);
-			timer1_off();
 			inp_sel = 'T';
 			rx_flag = 0;
 			break;

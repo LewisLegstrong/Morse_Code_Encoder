@@ -1,8 +1,11 @@
-#ifndef INIT_IO_
-#define INIT_IO_
+#ifndef IO_INIT_H
+#define IO_INIT_H
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <math.h>
+
+#include "usart_init.h"
 
 /*Defines for Frequency*/
 #define MIN_BUZ_FRQ 50 //defines min freq at 20Hz
@@ -21,6 +24,6 @@ extern volatile float spb;
 
 void adc_init(void);
 void io_config(void);
-unsigned int adc_read(unsigned int ch);
+uint16_t adc_read(uint8_t adc_pin);
 
 #endif

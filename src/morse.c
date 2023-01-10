@@ -39,7 +39,7 @@ void morse_convert(unsigned char *phrasetoconvert)
 {
 	int i = 0;
 
-	while (phrasetoconvert[i] != '\0')
+	while (phrasetoconvert[i++] != '\0')
 	{
 		int j = 0;
 		switch (phrasetoconvert[i++])
@@ -354,4 +354,5 @@ void morse_convert(unsigned char *phrasetoconvert)
 				break;
 		}
 	}
+	timer1_off();
 }

@@ -5,11 +5,11 @@ volatile unsigned int rx_flag = 0;
 
 void usart_init (unsigned int ubrr) // Inicia a USART em 8bit data, 1 stop bit, Assyncronous
 {	
-	UBRR0H = (ubrr >> 8); /*  */
-	UBRR0L = (ubrr);
+	UBRR0H = ((unsigned char)ubrr >> 8); /*  */
+	UBRR0L = ((unsigned char)ubrr);
 
+	UCSR0A |= (1 << U2X0); //activates double speed transfer rates to minimize error at 115200 Baud Rate
 	UCSR0B |= (1 << RXCIE0)  | (1 << RXEN0) | (1 << TXEN0); // Enable RX and TX, Enable Interrupts for RX and TX
-	UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00);
 }
 
 /***************************************************************************************
@@ -68,5 +68,6 @@ void usart_receive(void)	//Recebe cada carater da UDR0 e coloca na string
 ISR (USART_RX_vect)	//Interrupção por receção da USART
 {
 	usart_receive();
+	usart_transmit("INT ON");
 	rx_flag = 1;
 }
