@@ -68,6 +68,5 @@ void usart_receive(void)	//Recebe cada carater da UDR0 e coloca na string
 ISR (USART_RX_vect)	//Interrupção por receção da USART
 {
 	usart_receive();
-	usart_transmit("INT ON");
 	rx_flag = 1;
 }

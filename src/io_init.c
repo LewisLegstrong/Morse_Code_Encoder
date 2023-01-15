@@ -27,38 +27,25 @@ void adc_read(char *tempe)
 	while(!(ADCSRA & (1<<ADIF)));
 	ADC_10bit = ADC;
 
-	/* TESTING */
-	char ADC_convert[20];
-	itoa(ADC_10bit, ADC_convert, 10);
-	//ft_itoa(tempe, (int)ADC_10bit);
-    usart_transmit("ADC_10bit after conversion: ");
-    usart_transmit(ADC_convert);
-
 	//voltagem no NTC
-	float volt_ntc = 0.0;
-	char voltage[8];
-	volt_ntc = (ADC_10bit * 1.1) / 1023;
-	itoa(volt_ntc, voltage, 10);
-	usart_transmit("Voltage value: ");
-	usart_transmit(voltage);
-	usart_transmit("\n");
-
+	float volt_ntc = (ADC_10bit * 1.1) / 1023;
+	
 	// Resistencia de NTC
-	float rNTC = 100000 * volt_ntc / (5 - volt_ntc);
-	char res_NTC[120];
-	usart_transmit("Determining Temp values\n");
-	itoa(rNTC, res_NTC, 10);
-	usart_transmit(res_NTC);
+	float rNTC = (Rref * volt_ntc) / (5 - volt_ntc);
+	/*	TESTING	*/
+	char resNTC[20];
+	itoa(rNTC, resNTC, 10);
+	usart_transmit(resNTC);
 	usart_transmit("\n");
 
 	// Determinar temperatura (Formula de Steinhart-Hart)
-	float temperature = 0.0;
-	temperature = rNTC / R_NTC_NOMINAL;			   // (R/Ro)
-	temperature = log(temperature);				   // ln(R/Ro)
-	temperature /= BETA;						   // 1/B * ln(R/Ro)
-	temperature += 1.0 / (R_NTC_NOMINAL + 273.15); // + (1/To)
-	temperature = 1.0 / temperature;			   // Invert
-	temperature -= 273.15;						   // convert absolute temp to C
+	float temperature;
+  	temperature = rNTC / NOMINAL_RES;     // (R/Ro)
+  	temperature = log(temperature);                  // ln(R/Ro)
+  	temperature /= BETA;                   // 1/B * ln(R/Ro)
+  	temperature += 1.0 / (NOMINAL_TEMP + 273.15); // + (1/To)
+  	temperature = 1.0 / temperature;                 // Invert
+ 	temperature -= 273.15;                         // convert absolute temp to C
 
 /* Determine temperature (Steinhart-Hart equation) */
 	// float lnR_Ro = log(rNTC / R_NTC_NOMINAL);
@@ -67,7 +54,7 @@ void adc_read(char *tempe)
 
 /*	Testing	*/
 	itoa(temperature, tempe, 10);
-    usart_transmit(tempe);
+	usart_transmit(tempe);
 }
 
 /***********************************************************************************

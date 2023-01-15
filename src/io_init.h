@@ -17,8 +17,11 @@
 #define SPB_MIN 1/(200/60)
 #define SPB_INC 1/(200/60)
 /*Defines for ADC*/
+#define ntc_pin 0b00000000
 #define BETA 3435
-#define R_NTC_NOMINAL 10000L // a 25ºC
+#define NOMINAL_TEMP 25 
+#define NOMINAL_RES 10000L // NTC resistance value at 25ºC
+#define Rref 100000L //Series resistance
 
 extern volatile unsigned int freq;
 extern volatile float spb;

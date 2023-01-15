@@ -8,7 +8,8 @@
 #include "usart_init.h"
 #include "mod_mode.h"
 
-volatile unsigned int freq = MIN_BUZ_FRQ;
+// volatile unsigned int freq = MIN_BUZ_FRQ;
+volatile unsigned int freq = 200;
 volatile float spb = SPB_MIN;
 
 void startandsetup(void)
@@ -36,20 +37,6 @@ int main(void)
 		// temp = adc_read(PC0);
 		// temperatura = ft_itoa(temp);
 		timer1_init(freq);
-
-		if (rx_flag == 1)
-		{
-			usart_transmit("A ler temp");
-			adc_read(temp);
-			usart_transmit(temp);			
-			rx_flag = 0;
-		}
-		else
-			usart_transmit("funciona\n");
-
-		delay_t0(2);
-		timer1_off();
-		delay_t0(2);
 	}
 	return (0);
 }
