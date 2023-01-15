@@ -5,6 +5,7 @@
 #include <avr/io.h>
 
 #include "timer_init.h"
+#include "usart_init.h"
 
 extern unsigned char out_sel;
 

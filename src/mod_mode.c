@@ -1,13 +1,13 @@
 #include "mod_mode.h"
 
-const char inp_m[10] = "$INP:MSG:";
-const char inp_t[10] = "$INP:TMP$";
-const char out_l[10] = "$OUT:LED$";
-const char out_b[10] = "$OUT:BUZ$";
-const char inc_f[10] = "$INC:FRQ$";
-const char inc_b[10] = "$INC:BPS$";
-const char dec_f[10] = "$DEC:FRQ$";
-const char dec_b[10] = "$DEC:BPS$";
+const char inp_m[120] = "$INP:MSG:"; //change input to Message
+const char inp_t[10] = "$INP:TMP$"; //Change input to Temperature
+const char out_l[10] = "$OUT:LED$";	//Change Output to LED	
+const char out_b[10] = "$OUT:BUZ$";	//Change Output to Buzzer
+const char inc_f[10] = "$INC:FRQ$"; //Increment frequency Values
+const char inc_b[10] = "$INC:BPS$";	//Increment Beats per Second values
+const char dec_f[10] = "$DEC:FRQ$"; //Decrement frequency values
+const char dec_b[10] = "$DEC:BPS$";	//Decrement BEats per Second Values
 
 /*******************************Terminal Modifiable funciotns************************************/
 void mode_change(void)
@@ -61,16 +61,15 @@ void mode_change(void)
 void input_selection(char inp_sel)
 {
 	unsigned char *aux;
-	int temp = 0;
+	char temp[6];
 
 	aux = (unsigned char*)frase;
 	switch (inp_sel)
 	{
 		case 'T':
-			temp = adc_read(PC0);
+			adc_read(temp);
 			timer1_init(freq);
 			timer1_off();
-			usart_transmit(temp);
 			delay_t0(5);
 			break;
 	

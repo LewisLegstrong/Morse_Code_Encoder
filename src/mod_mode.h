@@ -3,11 +3,12 @@
 
 #include <avr/io.h>
 #include <string.h>
+
 #include "usart_init.h"
 #include "morse.h"
 
-extern const char inp_m[10];
-extern const char inp_t[10];
+extern const char inp_m[120];
+extern const char inp_t[10]; //Change Input to Temp
 extern const char out_l[10];
 extern const char out_b[10];
 extern const char inc_f[10];

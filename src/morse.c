@@ -1,6 +1,4 @@
 #include "morse.h"
-#include "timer_init.h"
-#include "usart_init.h"
 
 unsigned char out_sel = 'L'; //At the start, the default OUTPUT is the LED
 // Defines Morse Caracters: Dot, Dash and also defines Space between letters

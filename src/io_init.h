@@ -4,6 +4,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include "usart_init.h"
 
@@ -17,13 +18,13 @@
 #define SPB_INC 1/(200/60)
 /*Defines for ADC*/
 #define BETA 3435
-#define R_NTC_NOMINAL 10000 // a 25ºC
+#define R_NTC_NOMINAL 10000L // a 25ºC
 
 extern volatile unsigned int freq;
 extern volatile float spb;
 
 void adc_init(void);
 void io_config(void);
-uint16_t adc_read(uint8_t adc_pin);
+void adc_read(char *temp);
 
 #endif
