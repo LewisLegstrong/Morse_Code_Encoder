@@ -1,16 +1,14 @@
-// #include <avr/interrupt.h>
-// #include <avr/io.h>
-// #include <util/delay.h>
 #include <string.h>
 
 #include "io_init.h"
 #include "timer_init.h"
 #include "usart_init.h"
 #include "mod_mode.h"
+#include "morse.h"
 
 // volatile unsigned int freq = MIN_BUZ_FRQ;
-volatile unsigned int freq = 200;
-volatile float spb = SPB_MIN;
+volatile unsigned int freq = 2000;
+volatile float spb = 5;
 
 void startandsetup(void)
 {
@@ -19,8 +17,6 @@ void startandsetup(void)
 	UART0_FLUSH();
 	adc_init();
 	usart_transmit("Inicio com sucesso");
-	delay_t0(2);
-
 }
 
 int main(void)
@@ -33,10 +29,8 @@ int main(void)
 
 	while (1)
 	{
-		// delay_t0(2);
-		// temp = adc_read(PC0);
-		// temperatura = ft_itoa(temp);
-		timer1_init(freq);
+		out_sel = 'L';
+		morse_dot();
 	}
 	return (0);
 }

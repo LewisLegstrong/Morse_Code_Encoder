@@ -4,7 +4,7 @@
 void io_config(void) // Configure pins as output or input
 {
 	DDRB |= (1 << PB1); // Define pin Buzzer OUTPUT(PWM)
-	DDRD |= (1 << PD6); // Define pin LED OUTPUT
+	DDRD |= (1 << PB2); // Define pin LED OUTPUT
 	DDRC &= ~(1 << PC0); // Define NTC como INPUT
 	DDRD &= ~(1 << PD2);
 	EICRA |= (1 << ISC00) | (1 << ISC01) | (1 << ISC10) | (1 << ISC11);

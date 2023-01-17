@@ -22,13 +22,17 @@ void mode_change(void)
 		else if (!(strcmp(aux, inp_t)))
 			input_selection('T');
 
-		/*	Changes output between LED and Buzzer */
+		/*	
+		Changes output between LED and Buzzer 
+		*/
 		else if (!(strcmp(aux, out_l))) 
 			out_sel = 'L';
 		else if (!(strcmp(aux, out_b)))
 			out_sel = 'B';
 
-		/*	Changes frequency	*/	
+		/*	
+		Changes frequency	
+		*/	
 		else if (!(strcmp(aux, inc_f)))
 		{
 			freq += FREQ_INC;
@@ -42,18 +46,20 @@ void mode_change(void)
 				freq = MIN_BUZ_FRQ;
 		}
 
-		/*	Changes BPS (by changing the seconds per beat, it changes BPS)	*/	
+		/*	
+		Changes BPS (by changing the seconds per beat, it changes BPS)	
+		*/	
 		else if (!(strcmp(aux, inc_b)))
 		{
-			freq += SPB_INC;
-			if (freq > SPB_MAX)
-				freq = SPB_MAX;
+			spb += SPB_INC;
+			if (spb > SPB_MAX)
+				spb = SPB_MAX;
 		}
 		else if (!(strcmp(aux, dec_b)))
 		{
 			spb -= SPB_INC;
-			if (freq < SPB_MIN)
-				freq = SPB_MIN;
+			if (spb < SPB_MIN)
+				spb = SPB_MIN;
 		}
 	}
 }
