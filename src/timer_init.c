@@ -7,18 +7,18 @@ void timer1_init(unsigned int frequency) // Não acabado, falta configurar algun
 	ticks = (MY_F_CPU / PRESCALER1) / frequency;
 
 	TCCR1A |= (1 << WGM11) | (1 << WGM10);
-	TCCR1B |= (1 << WGM12) | (1 << WGM13);
+	TCCR1B |= (1 << WGM13);
 
-	if (out_sel == 'L')
+	if (out_sel == 'L') //PB1
 	{
-		TCCR1A |= (1 << COM1A0);
+		TCCR1A |= (1 << COM1A1);
 		OCR1AH = ticks >> 8;
 		OCR1AL = ticks;
 		timer1_on();
 	}
-	else if (out_sel == 'B')
+	else if (out_sel == 'B') //PB2
 	{
-		TCCR1A |= (1 << COM1B0);
+		TCCR1A |= (1 << COM1B1);
 		OCR1BH = ticks >> 8;
 		OCR1BL = ticks;
 		timer1_on();

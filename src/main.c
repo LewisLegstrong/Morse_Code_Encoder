@@ -25,12 +25,16 @@ int main(void)
 	memset(temp, 0, sizeof(temp));
 
 	startandsetup();
+	strcat(frase, "Hello World\n");
 	sei();
 
 	while (1)
 	{
 		out_sel = 'L';
-		morse_dot();
+		timer1_init(50);
+		adc_read(temp);
+		usart_transmit(frase);
+		delay_t0(4);
 	}
 	return (0);
 }
