@@ -21,6 +21,5 @@ void usart_init(unsigned int ubrr);
 void usart_transmit(volatile char tx_buffer[120]);
 void UART0_FLUSH(void);
 void usart_receive(void);
-unsigned char usart_get_char(void);
 
 #endif

@@ -8,7 +8,7 @@
 
 // volatile unsigned int freq = MIN_BUZ_FRQ;
 volatile unsigned int freq = 2000;
-volatile float spb = 5;
+volatile float spb = 0.2;
 
 void startandsetup(void)
 {
@@ -25,16 +25,21 @@ int main(void)
 	memset(temp, 0, sizeof(temp));
 
 	startandsetup();
-	strcat(frase, "Hello World\n");
+	strcat((char *)frase, "Hello World\n");
 	sei();
 
 	while (1)
 	{
-		out_sel = 'L';
-		timer1_init(50);
-		adc_read(temp);
-		usart_transmit(frase);
-		delay_t0(4);
+		if (rx_flag)
+		{
+			mode_change();
+			usart_transmit(frase);
+		}	
+		else
+		{
+			input_selection('T');
+			delay_t0(10);
+		}
 	}
 	return (0);
 }

@@ -11,7 +11,7 @@
 /*Defines for Frequency*/
 #define MIN_BUZ_FRQ 50 //defines min freq at 20Hz
 #define MAX_BUZ_FRQ 20000 //defines max freq at 20kHz
-#define FREQ_INC 665 //increases by 100Hz the PWM signal
+#define FREQ_INC 2000 //increases by 100Hz the PWM signal
 /*Defines for BPS*/
 #define SPB_MAX 1/(1000/60)
 #define SPB_MIN 1/(200/60)
