@@ -40,7 +40,7 @@ void morse_convert(char *phrasetoconvert)
 	while (phrasetoconvert[i] != '\0')
 	{
 		int j = 0;
-		switch (phrasetoconvert[i++])
+		switch (phrasetoconvert[i])
 		{
 			case 'a':
 			case 'A':
@@ -160,6 +160,7 @@ void morse_convert(char *phrasetoconvert)
 				morse_dash();
 				morse_dash();
 				morse_space();
+				usart_transmit("Transmited 'O'\n");
 				break;
 
 			case 'p':
@@ -194,6 +195,7 @@ void morse_convert(char *phrasetoconvert)
 				morse_dot();
 				morse_dot();
 				morse_space();
+				usart_transmit("Transmited 'S'\n");
 				break;
 
 			case 't':
@@ -351,6 +353,7 @@ void morse_convert(char *phrasetoconvert)
 					morse_space();
 				break;
 		}
+		i++;
 	}
 	timer1_off();
 }

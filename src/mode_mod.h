@@ -1,5 +1,5 @@
-#ifndef MOD_MODE_H
-#define MOD_MODE_H
+#ifndef MODE_MOD_H
+#define MODE_MOD_H
 
 #include <avr/io.h>
 #include <string.h>

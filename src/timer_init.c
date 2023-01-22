@@ -1,6 +1,8 @@
 #include "timer_init.h"
 #include "morse.h"
 
+volatile uint16_t period0 = 0; 
+
 void timer1_init(unsigned int frequency) // Não acabado, falta configurar alguns registos e perceber a 100%
 {
 	int ticks;
@@ -44,26 +46,45 @@ void timer1_off(void)
 
 void timer0_init(void)
 {
-	TCCR0B &= ~(1 << WGM02);
-	TIMSK0 |= (1 << TOIE0);
-	TCCR0B |= ((1 << CS02) | (1<< CS00)); //Prescaler a 1024
+	TCCR0A |= (1 << WGM01); //Modo CTC
+	TIMSK0 |= (1 << OCIE0A); //Ativa a interrupt na compare
+	// TCCR0B |= (1 << CS01) | (1 << CS00); //Prescaler a ~64
+	TCNT0 = 0;
+	OCR0A = 125; // define o timer de 1ms
 }
 
-void delay_t0(float seconds)
+//TESTE
+void timer0_start()
 {
-	float delay_val = 0;
-
-	delay_val = seconds * TI0_FREQ;
-	period0 = delay_val / 255;
-
-	timer0_init();
-	sei();
-	if (!period0);
-		TCCR0B &= ~((1 << CS02) | (1<< CS00)); //desliga o Timer
-	cli();
+	TCCR0B |= (1 << CS01) | (1 << CS00); //Prescaler a ~64
 }
 
-ISR (TIMER0_OVF_vect)
+void timer0_reset()
 {
-	period0--;	
+	timer0_stop();
+	TCNT0 = 0;
+	timer0_start();
+}
+
+void timer0_stop()
+{
+	TCCR0B &= ~((1 << CS01) | (1 << CS00));
+}
+
+void delay_t0(uint16_t seconds)
+{
+	period0 = seconds;
+	timer0_start();
+	while(period0);
+}
+
+ISR (TIMER0_COMPA_vect)
+{
+	if(!period0)
+		timer0_stop();
+	else
+	{
+		period0--;
+		timer0_reset();
+	}
 }

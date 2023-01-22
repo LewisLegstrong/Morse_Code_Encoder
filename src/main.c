@@ -3,19 +3,19 @@
 #include "io_init.h"
 #include "timer_init.h"
 #include "usart_init.h"
-#include "mod_mode.h"
+#include "mode_mod.h"
 #include "morse.h"
 
 // volatile unsigned int freq = MIN_BUZ_FRQ;
 volatile unsigned int freq = 2000;
-volatile float spb = 0.2;
+volatile float spb = 200;
 
 void startandsetup(void)
 {
 	io_config();
 	usart_init(BAUD);
-	UART0_FLUSH();
 	adc_init();
+	timer0_init();
 	usart_transmit("Inicio com sucesso");
 }
 
@@ -34,11 +34,12 @@ int main(void)
 		{
 			mode_change();
 			usart_transmit(frase);
+			delay_t0(1000);
 		}	
 		else
 		{
 			input_selection('T');
-			delay_t0(10);
+			delay_t0(10000);
 		}
 	}
 	return (0);
