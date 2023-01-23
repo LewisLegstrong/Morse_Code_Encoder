@@ -45,7 +45,6 @@ void adc_read(char *temp_read)
 	usart_transmit("ºC");
 	usart_transmit("\n");
 	morse_convert(temp_read);
-
 }
 
 /***********************************************************************************
@@ -54,16 +53,16 @@ void adc_read(char *temp_read)
 
 ISR(INT0_vect)
 {
-	usart_transmit("Frequency Decreased\n");
-	freq -= FREQ_INC;
-	if (freq < MIN_BUZ_FRQ)
-		freq = MIN_BUZ_FRQ;
+	usart_transmit("BPS Decreased\n");
+	bps += BPS_INC;
+	if (bps > BPS_MIN)
+		bps = BPS_MIN;
 }
 
 ISR(INT1_vect)
 {
-	usart_transmit("Frequency Increased\n");
-	freq += FREQ_INC;
-	if (freq > MAX_BUZ_FRQ)
-		freq = MAX_BUZ_FRQ;
+	usart_transmit("BPS Increased\n");
+	bps -= BPS_INC;
+	if (bps < BPS_MAX)
+		bps = BPS_MAX;
 }

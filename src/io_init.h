@@ -20,7 +20,7 @@
 #define BETA 3435
 #define NOMINAL_TEMP 25 
 #define NOMINAL_RES 10000L // NTC resistance value at 25ºC
-#define Rref 98000L //Series resistance
+#define Rref 98000L //Series resistance - Real value read on resistor before installing on board
 
 extern volatile unsigned int freq;
 extern volatile float bps; //the values stored will in ms per beat
