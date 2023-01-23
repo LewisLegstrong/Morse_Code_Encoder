@@ -3,7 +3,7 @@
 
 #define BAUD 8 //At 8MHz internal Clock, for a BAUD rate of 115200, single speed operation doesn't work, sending trash a ue to an 8,5% error
 				//By setting assynchronous operation at double speed, we can have an error 3,5% allowing us to set Serial Port to 115200 as requested 
-
+				//All the mathn that allows the BAUD rate to be scalable didn't output the results required, therefore, the value here is the table value that directly corresponds to what we want
 #include <avr/interrupt.h>
 #include <avr/io.h>
 

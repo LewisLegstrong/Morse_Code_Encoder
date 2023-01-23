@@ -11,14 +11,13 @@ const char dec_b[10] = "<DEC:BPS>";	//Decrement BEats per Second Values
 
 /*******************************Terminal Modifiable funciotns************************************/
 void mode_change(void)
-{
-//TESTES
-	usart_transmit("entered function\n");
-
+{	
 	int make_change = 0;
 	while (!make_change)
 	{
-		//changes Input method
+		/************************
+		 * Changes INPUT mode
+		*************************/
 		if (!(strncmp((char *)frase, inp_m, 9))) //INPUT change to MESSAGE
 		{	
 			input_selection('M');
@@ -31,9 +30,11 @@ void mode_change(void)
 			make_change = 1;
 			rx_flag = 0;
 		}
-		/*	
-		Changes output between LED and Buzzer 
-		*/
+		/************************
+		 * Changes OUTPUT mode
+		*************************/
+		//Due to the way LED works, It is required to establish more strict limits to BPS
+		//If BPS is too high, LED lowers intensity, but dosn't have time to switch off
 		else if (!(strncmp((char *)frase, out_l, 10)))
 		{
 			out_sel = 'L';
@@ -44,19 +45,23 @@ void mode_change(void)
 		else if (!(strncmp((char *)frase, out_b, 10)))
 		{
 			out_sel = 'B';
-			usart_transmit("Output is now LED\n");
+			usart_transmit("Output is now BUZZER\n");
 			make_change = 1;
 			rx_flag = 0;
 		}
-		/*	
-		Changes frequency	
-		*/	
+		/************************
+		 * Changes FRQUENCY Values
+		*************************/
 		else if (!(strncmp((char *)frase, inc_f, 10)))
 		{
 			freq += FREQ_INC;
 			if (freq > MAX_BUZ_FRQ)
 				freq = MAX_BUZ_FRQ;
 			usart_transmit("Increased FREQUENCY\nIt is now: ");
+			char frequency[20];
+			itoa(freq, frequency, 10);
+			usart_transmit(frequency);
+			usart_transmit("\n");
 			make_change = 1;
 			rx_flag = 0;
 		}
@@ -66,35 +71,50 @@ void mode_change(void)
 			if (freq < MIN_BUZ_FRQ)
 				freq = MIN_BUZ_FRQ;
 			usart_transmit("Decreased FREQUENCY\nIt is now: ");
+			char frequency[20];
+			itoa(freq, frequency, 10);
+			usart_transmit(frequency);
+			usart_transmit("\n");
 			make_change = 1;
 			rx_flag = 0;
 		}
 
-		/*	
-		Changes BPS (by changing the seconds per beat, it changes BPS)	
-		*/	
+		/************************
+		 * Changes BPS Values
+		*************************/
 		else if (!(strncmp((char *)frase, inc_b,10)))
 		{
-			spb += SPB_INC;
-			if (spb > SPB_MAX)
-				spb = SPB_MAX;
+			bps -= BPS_INC;
+			if (bps < BPS_MAX)
+				bps = BPS_MAX;
 			usart_transmit("Increased BPS\nIt is now: ");
+			char beats[20];
+			itoa(bps, beats, 10);
+			usart_transmit(beats);
+			usart_transmit("\n");
 			make_change = 1;
 			rx_flag = 0;
 		}
 		else if (!(strncmp((char *)frase, dec_b, 10)))
 		{
-			spb -= SPB_INC;
-			if (spb < SPB_MIN)
-				spb = SPB_MIN;
+			bps += BPS_INC;
+			if (bps > BPS_MIN)
+				bps = BPS_MIN;
 			usart_transmit("Decreased BPS\nIt is now: ");
+			char beats[20];
+			itoa(bps, beats, 10);
+			usart_transmit(beats);
+			usart_transmit("\n");
 			make_change = 1;
 			rx_flag = 0;
 		}
 
+		/************************
+		 * Indicates string inserted doesn't matc comms protocol
+		*************************/
 		else
 		{
-			usart_transmit("Invalid Input, please refer to manual\n");
+			usart_transmit("\n\nInvalid Input, please refer to manual\n\n");
 			make_change = 1;
 			rx_flag = 0;
 		}

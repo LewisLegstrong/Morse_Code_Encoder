@@ -7,39 +7,42 @@
 #include "morse.h"
 
 // volatile unsigned int freq = MIN_BUZ_FRQ;
-volatile unsigned int freq = 2000;
-volatile float spb = 200;
+volatile unsigned int freq = MIN_BUZ_FRQ;
+volatile float bps = BPS_MAX;
 
-void startandsetup(void)
+void startandsetup(void) //Initializes all that's required
 {
-	io_config();
-	usart_init(BAUD);
-	adc_init();
-	timer0_init();
-	usart_transmit("Inicio com sucesso");
+	io_config(); //Setup of GPIO
+	usart_init(BAUD); //Setup of USART
+	adc_init(); //Setup for ADC
+	timer0_init();	//Setup for delay
+	usart_transmit("Inicio com sucesso\n");
 }
 
 int main(void)
 {
-	char temp[6];
-	memset(temp, 0, sizeof(temp));
-
+	float curr_bps = bps; //stores the bps value due to LED way of working(Check LED Output for further info)
 	startandsetup();
-	strcat((char *)frase, "Hello World\n");
 	sei();
 
 	while (1)
 	{
+		if (out_sel == 'L' && bps < 500)
+		{		
+			curr_bps = bps; 
+			bps = 500;
+		}
+		else if (out_sel == 'B')
+			bps = curr_bps;
 		if (rx_flag)
 		{
 			mode_change();
-			usart_transmit(frase);
 			delay_t0(1000);
 		}	
 		else
 		{
 			input_selection('T');
-			delay_t0(10000);
+			delay_t0(5000);
 		}
 	}
 	return (0);

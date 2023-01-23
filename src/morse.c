@@ -1,30 +1,30 @@
 #include "morse.h"
 
-unsigned char out_sel = 'B'; //At the start, the default OUTPUT is the LED
+unsigned char out_sel = 'L'; //At the start, the default OUTPUT is the LED
 // Defines Morse Caracters: Dot, Dash and also defines Space between letters
-void morse_dot(void)
+void morse_dot(void) //Creates the Dot output
 {
 	timer1_init(freq);
-	delay_t0(spb);
+	delay_t0(bps);
 	
 	timer1_off();
-	delay_t0(spb);
+	delay_t0(bps);
 }
 
-void morse_dash(void)
+void morse_dash(void) //Creates the dash output
 {
 	timer1_init(freq);
 	for (int i = 0; i < 3; i++) //3x the beat time 
-		delay_t0(spb);
+		delay_t0(bps);
 	
 	timer1_off();
-	delay_t0(spb);
+	delay_t0(bps);
 }
 
-void morse_space(void)
+void morse_space(void) //Creates the space in between words
 {
 	for (int i = 0; i < 2; i++) //2x the beat time
-		delay_t0(spb);
+		delay_t0(bps);
 }
 
 /*********************************************************************
@@ -33,6 +33,7 @@ void morse_space(void)
  *********************************************************************/
 
 //Converts the phrase to morse Code to be sent to an LED or Buzzer
+//Could have been achieved with a matrix that calls the DASH/DOT functions
 void morse_convert(char *phrasetoconvert)
 {
 	int i = 0;
@@ -160,6 +161,7 @@ void morse_convert(char *phrasetoconvert)
 				morse_dash();
 				morse_dash();
 				morse_space();
+				//TESTE
 				usart_transmit("Transmited 'O'\n");
 				break;
 
@@ -195,6 +197,7 @@ void morse_convert(char *phrasetoconvert)
 				morse_dot();
 				morse_dot();
 				morse_space();
+				//TESTE
 				usart_transmit("Transmited 'S'\n");
 				break;
 
@@ -256,7 +259,7 @@ void morse_convert(char *phrasetoconvert)
 				morse_space();
 				break;
 
-//			Números			//
+		//			Números			//
 
 			case '1':
 				morse_dot();

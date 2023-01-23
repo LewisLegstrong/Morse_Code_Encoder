@@ -13,21 +13,20 @@
 #define MAX_BUZ_FRQ 20000 //defines max freq at 20kHz
 #define FREQ_INC 200 //increases by 100Hz the PWM signal
 /*Defines for BPS*/
-#define SPB_MAX 1000
-#define SPB_MIN 0.2
-#define SPB_INC 0.5
+#define BPS_MAX 200 //The lowest milisecond value will translate into the maximum amount of beats per second
+#define BPS_MIN 1000 //The highest milisecond value will translate into the minimum amount of beats per second
+#define BPS_INC 50
 /*Defines for ADC*/
-#define ntc_pin 0b00000000
 #define BETA 3435
 #define NOMINAL_TEMP 25 
 #define NOMINAL_RES 10000L // NTC resistance value at 25ºC
-#define Rref 100000L //Series resistance
+#define Rref 98000L //Series resistance
 
 extern volatile unsigned int freq;
-extern volatile float spb;
+extern volatile float bps; //the values stored will in ms per beat
 
 void adc_init(void);
 void io_config(void);
-void adc_read(char *temp);
+void adc_read(char *temp_read);
 
 #endif

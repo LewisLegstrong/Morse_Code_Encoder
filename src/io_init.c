@@ -7,8 +7,8 @@ void io_config(void) // Configure pins as output or input
 	DDRB |= (1 << PB2); // Define pin BUZZER OUTPUT
 	DDRC &= ~(1 << PC0); // Define NTC como INPUT
 	DDRD &= ~(1 << PD2);
-	EICRA |= (1 << ISC00) | (1 << ISC01) | (1 << ISC10) | (1 << ISC11);
-	EIMSK |= (1 << INT0) | (1 << INT1);
+	EICRA |= (1 << ISC00) | (1 << ISC01) | (1 << ISC10) | (1 << ISC11); //Sets both EINT to activate on the rising edge
+	EIMSK |= (1 << INT0) | (1 << INT1); //enables external interrupts
 }
 
 void adc_init(void) // pg216 datasheet
@@ -19,13 +19,13 @@ void adc_init(void) // pg216 datasheet
 
 }
 
-void adc_read(char *tempe)
+void adc_read(char *temp_read)
 {
 	uint16_t ADC_10bit = 0;
 	ADCSRA |= (1 << ADEN) | (1 << ADSC); // ADEN enables the ADC; ADSC - Start Conversion
 	
-	while(!(ADCSRA & (1<<ADIF)));
-	ADC_10bit = ADC;
+	while(!(ADCSRA & (1<<ADIF))); //Waits for conversion to complete
+	ADC_10bit = ADC; //Puts converted value in variable
 	
 	float volt_ntc = (ADC_10bit * 1.1) / 1023;//voltagem no NTC
 	float rNTC = (Rref * volt_ntc) / (5 - volt_ntc);// Resistencia de NTC
@@ -39,11 +39,13 @@ void adc_read(char *tempe)
   	temperature = 1.0 / temperature;                 // Invert
  	temperature -= 273.15;                         // convert absolute temp to C
 
-/*	Testing	*/
-	
-	itoa(temperature, tempe, 10);
-	usart_transmit(tempe);
-	morse_convert(tempe);
+	itoa(temperature, temp_read, 10);
+	usart_transmit("Temperature is: ");
+	usart_transmit(temp_read);
+	usart_transmit("ºC");
+	usart_transmit("\n");
+	morse_convert(temp_read);
+
 }
 
 /***********************************************************************************
@@ -52,7 +54,7 @@ void adc_read(char *tempe)
 
 ISR(INT0_vect)
 {
-	usart_transmit("Frequency Decreased");
+	usart_transmit("Frequency Decreased\n");
 	freq -= FREQ_INC;
 	if (freq < MIN_BUZ_FRQ)
 		freq = MIN_BUZ_FRQ;
@@ -60,7 +62,7 @@ ISR(INT0_vect)
 
 ISR(INT1_vect)
 {
-	usart_transmit("Frequency Increased");
+	usart_transmit("Frequency Increased\n");
 	freq += FREQ_INC;
 	if (freq > MAX_BUZ_FRQ)
 		freq = MAX_BUZ_FRQ;
